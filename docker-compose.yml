@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   bot:
     build: .
-    container_name: ryan-gosling-bot
+    container_name: rg-bot
     environment:
       - TOKEN=${TOKEN}
       - CLIENT_ID=${CLIENT_ID}
