@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: ryan-gosling-bot
+    environment:
+      - TOKEN=${TOKEN}
+      - CLIENT_ID=${CLIENT_ID}
+      - GUILD_ID=${GUILD_ID}
+      - DEADLOCK_API_BASEURL=${DEADLOCK_API_BASEURL}
+    volumes:
+      - .:/usr/src/app
+    command: [ "node", "--no-warnings", "index.js" ]
