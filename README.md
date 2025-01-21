@@ -1,4 +1,7 @@
-# discordbotjs
+# Ryan Gosling Bot
+
+
+Simple Discord bot written in javascript using discordjs. This project is meant for fun and as practice.
 
 To install dependencies:
 
