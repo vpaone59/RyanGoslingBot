@@ -18,8 +18,10 @@ const commandFolders = fs.readdirSync(foldersPath);
 
 // Loop through each command folder and read command files
 for (const folder of commandFolders) {
+    // Grab all the command files from the commands directory
     const commandsPath = path.join(foldersPath, folder);
     const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
     for (const file of commandFiles) {
         const filePath = path.join(commandsPath, file);
         const command = await import(filePath);
@@ -31,48 +33,25 @@ for (const folder of commandFolders) {
     }
 }
 
-// Create a new REST instance and set the token
+// Construct and prepare an instance of the REST module
 const rest = new REST().setToken(process.env.TOKEN);
 
 (async () => {
     try {
-        console.log('Started removing old application (/) commands.');
-
-        // Fetch all existing guild commands
-        const existingGuildCommands = await rest.get(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID)
-        );
-
-        // Delete all existing guild commands
-        for (const command of existingGuildCommands) {
-            await rest.delete(
-                Routes.applicationGuildCommand(process.env.CLIENT_ID, process.env.GUILD_ID, command.id)
-            );
-        }
-
-        console.log('Successfully removed all old guild application (/) commands.');
-
-        // Fetch all existing global commands
-        const existingGlobalCommands = await rest.get(
-            Routes.applicationCommands(process.env.CLIENT_ID)
-        );
-
-        // Delete all existing global commands
-        for (const command of existingGlobalCommands) {
-            await rest.delete(
-                Routes.applicationCommand(process.env.CLIENT_ID, command.id)
-            );
-        }
-
-        console.log('Successfully removed all old global application (/) commands.');
-
-        // Deploy new commands
         console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
+        // Deploy commands globally
         const data = await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+            Routes.applicationCommands(process.env.CLIENT_ID),
             { body: commands },
         );
+
+        // Guild specific commands can be deployed like this:
+        // The put method is used to fully refresh all commands in the guild with the current set
+        // const data = await rest.put(
+        //     Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+        //     { body: commands },
+        // );
 
         console.log(`Successfully reloaded ${data.length} application (/) commands.`);
     } catch (error) {
