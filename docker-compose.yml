@@ -1,12 +1,12 @@
 services:
   bot:
     build: .
-    container_name: rg-bot
+    container_name: ryangosling-bot
+    restart: unless-stopped
     environment:
       - TOKEN=${TOKEN}
       - CLIENT_ID=${CLIENT_ID}
       - GUILD_ID=${GUILD_ID}
-      - DEADLOCK_API_BASEURL=${DEADLOCK_API_BASEURL}
     volumes:
       - .:/usr/src/app
-    command: [ "node", "--no-warnings", "index.js" ]
+    command: [ "node", "index.js" ]
