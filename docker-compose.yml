@@ -1,0 +1,14 @@
+services:
+  bot:
+    build: .
+    container_name: ryangosling-bot
+    restart: unless-stopped
+    environment:
+      - TOKEN=${TOKEN}
+      - CLIENT_ID=${CLIENT_ID}
+      - GUILD_ID=${GUILD_ID}
+      - OLLAMA_API_URL=${OLLAMA_API_URL}
+      - AI_SYSTEM_PROMPT=${AI_SYSTEM_PROMPT}
+    volumes:
+      - .:/usr/src/app
+    command: [ "node", "index.js" ]
