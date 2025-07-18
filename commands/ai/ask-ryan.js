@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 const OLLAMA_API_URL = process.env.OLLAMA_API_URL;
+const AI_MODEL = process.env.AI_MODEL || 'llama2:7b-chat'; // Default model if not specified
 const AI_SYSTEM_PROMPT = process.env.AI_SYSTEM_PROMPT;
 
 export const data = new SlashCommandBuilder()
@@ -25,7 +26,7 @@ export async function execute(interaction) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'gemma3:1b',
+                model: AI_MODEL,
                 prompt: question,
                 system: AI_SYSTEM_PROMPT,
                 stream: false
