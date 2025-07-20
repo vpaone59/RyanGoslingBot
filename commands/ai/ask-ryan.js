@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 const OLLAMA_API_URL = process.env.OLLAMA_API_URL;
-const AI_MODEL = process.env.AI_MODEL || 'llama2:7b-chat'; // Default model if not specified
+const AI_MODEL = process.env.AI_MODEL || 'gemma3:1b'; // Default model if not specified
 const AI_SYSTEM_PROMPT = process.env.AI_SYSTEM_PROMPT;
 
 export const data = new SlashCommandBuilder()
